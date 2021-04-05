@@ -1,7 +1,20 @@
 import discord
+import pandas as pd
+
+# Reading requisite files
 f = open("TOKEN.txt", "r")
 TOKEN = f.read()
 f.close()
+
+database = pd.read_csv('Database.csv', index_col = 0, sep=';')
+print(database)
+# adatok filterezésének próbálgatása
+filter_hamburger = database['Hamburger'] == 1
+print(database[filter_hamburger])
+#print(database[filter_hamburger].Name.to_string(index=False))
+for i in database[filter_hamburger]['Name']:
+	print(i)
+
 
 # Bot communication
 choose_food_type = "Choose which kind of food you want to eat!"
