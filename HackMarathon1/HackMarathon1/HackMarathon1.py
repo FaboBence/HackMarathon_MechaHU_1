@@ -1,14 +1,14 @@
 import discord
 import pandas as pd
 
-# Reading requisite files
-f = open("TOKEN.txt", "r")
-TOKEN = f.read()
-f.close()
+# Reading requisite files + Global variables
+with open("TOKEN.txt", "r") as f:
+	TOKEN = f.read() # Token for bot
+database = pd.read_csv('Database.csv', index_col = 0, sep=';') # Restaurant data
+ordering = False # Is an ordering process already running
 
-database = pd.read_csv('Database.csv', index_col = 0, sep=';')
-print(database)
 # adatok filterezésének próbálgatása
+print(database)
 filter_hamburger = database['Hamburger'] == 1
 print(database[filter_hamburger])
 #print(database[filter_hamburger].Name.to_string(index=False))
@@ -16,6 +16,7 @@ for i in database[filter_hamburger]['Name']:
 	print(i)
 
 # Bot communication
+order = "Who would like to order a meal? (Press like, and the Bot will contact you.)"
 choose_food_type = "Choose which kind of food you want to eat! \n :pizza:: Pizza\n :hamburger:: Hamburger\n :sandwich:: Sandwich\n :salad:: Salad\n :chicken:: Chicken\n :cow2:: Beef\n :pig2:: Pork\n :flag_us:: American food\n :flag_cn:: Chinese food\n :flag_mx:: Mexican food\n :flag_jp:: Japanese food\n(You can choose multiple categories!)"
 choose_price_range = "Which price category is the most suitable for you? \n :coin:: Cheap\n :dollar:: Medium priced\n :moneybag:: Reasonably priced\n :gem:: Expensive\n(You can choose multiple categories!)"
 choose_delivery_time = "How long are you willing to wait after ordering a meal? \n :one:: <10min\n :two:: <20min\n :three:: <30min\n :four:: <40min\n :five:: <50min\n :six:: <60min \n(If it doesn't matter, don't choose anything.)"
@@ -26,6 +27,7 @@ class MyClient(discord.Client):
 		print("I went online.")
 
 	async def on_message(self, message):
+		global ordering
 		if message.author == client.user:
 			# Choices for Food type
 			if message.content == choose_food_type:
@@ -57,15 +59,24 @@ class MyClient(discord.Client):
 			return
 
 		# Command: $order
-		if message.content.startswith("$order"):
-			print(str(message.content))
+		if message.content.startswith("$order") and ordering == False:
+			ordering = True
 			# Food type message
 			await message.channel.send(choose_food_type)
 			# Price preference
 			await message.channel.send(choose_price_range)
 			# Delivery time
 			await message.channel.send(choose_delivery_time)
-	
+		elif message.content.startswith("$order") and ordering == True:
+			await message.channel.send("An ordering process is already running! If you want to end it and see the results type: $close")
+
+		# Command: $close
+		elif message.content.startswith("$close") and ordering == True: # Here the answers should be evaluated
+			ordering = False
+			await message.channel.send("The suitable restaurants will appear shortly...")
+		elif message.content.startswith("$close") and ordering == False:
+			await message.channel.send("There isn't an ordering process to close! If you want to start one type: $order")
+
 	async def on_raw_reaction_add(self, payload):
 		user = await client.fetch_user(payload.user_id)
 		channel = await client.fetch_channel(payload.channel_id)
