@@ -15,7 +15,6 @@ print(database[filter_hamburger])
 for i in database[filter_hamburger]['Name']:
 	print(i)
 
-
 # Bot communication
 choose_food_type = "Choose which kind of food you want to eat!"
 
@@ -36,10 +35,20 @@ class MyClient(discord.Client):
 			print(str(message.content))
 			# First step: What kind of food do you want to eat?
 			await message.channel.send(choose_food_type)
-	async def on_reaction_add(self, reaction, user):
+
+	#async def on_reaction_add(self, reaction, user):
+	#	if user == client.user:
+	#		return
+	#	await reaction.message.channel.send(str(user) + " chose " + str(reaction.emoji))
+	#	await user.send(str(user) + " chose " + str(reaction.emoji))
+	
+	async def on_raw_reaction_add(self, payload):
+		user = client.get_user(payload.user_id)
+		channel = client.get_channel(payload.channel_id)
+		message = await channel.fetch_message(payload.message_id)
 		if user == client.user:
 			return
-		await reaction.message.channel.send(str(user) + " chose " + str(reaction.emoji))
+		await message.channel.send(str(user) + " chose " + str(payload.emoji))
 
 client = MyClient()
 client.run(TOKEN)
