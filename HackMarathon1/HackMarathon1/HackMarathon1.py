@@ -25,10 +25,14 @@ class MyClient(discord.Client):
 	async def on_message(self, message):
 		if message.author == client.user:
 			if message.content == choose_food_type:
-				#await message.add_reaction("🥩") # cut of meat
-				await message.add_reaction("\N{cut of meat}")
 				await message.add_reaction("🍕")
 				await message.add_reaction("\N{hamburger}")
+				await message.add_reaction("\N{sandwich}")
+				await message.add_reaction("\N{green salad}")
+				await message.add_reaction("\N{chicken}")
+				await message.add_reaction("\N{cow}")
+				await message.add_reaction("\N{pig}")
+				await message.add_reaction("🍣")
 			else:
 				pass
 		if message.content.startswith("$order"):
@@ -39,12 +43,13 @@ class MyClient(discord.Client):
 	#async def on_reaction_add(self, reaction, user):
 	#	if user == client.user:
 	#		return
+	#	print("on_reaction_add")
 	#	await reaction.message.channel.send(str(user) + " chose " + str(reaction.emoji))
 	#	await user.send(str(user) + " chose " + str(reaction.emoji))
 	
 	async def on_raw_reaction_add(self, payload):
-		user = client.get_user(payload.user_id)
-		channel = client.get_channel(payload.channel_id)
+		channel = await client.fetch_channel(payload.channel_id)
+		user = await client.fetch_user(payload.user_id)
 		message = await channel.fetch_message(payload.message_id)
 		if user == client.user:
 			return
