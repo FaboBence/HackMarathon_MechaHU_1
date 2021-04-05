@@ -16,7 +16,7 @@ for i in database[filter_hamburger]['Name']:
 	print(i)
 
 # Bot communication
-choose_food_type = "Choose which kind of food you want to eat!"
+choose_food_type = "Choose which kind of food you want to eat!\n :pizza:: Pizza\n :hamburger:: Hamburger\n :sandwich:: Sandwich\n :salad:: Salad\n :chicken:: Chicken\n :cow2:: Beef\n :pig2:: Pork\n :flag_us:: American food\n :flag_cn:: Chinese food\n :flag_mx:: Mexican food\n :flag_jp:: Japanese food"
 
 class MyClient(discord.Client):
 	# Going online
@@ -32,7 +32,10 @@ class MyClient(discord.Client):
 				await message.add_reaction("\N{chicken}")
 				await message.add_reaction("\N{cow}")
 				await message.add_reaction("\N{pig}")
-				await message.add_reaction("🍣")
+				await message.add_reaction(u"\U0001F1FA\U0001F1F8") # American flag
+				await message.add_reaction(u"\U0001F1E8\U0001F1F3") # Chinese flag
+				await message.add_reaction(u"\U0001F1F2\U0001F1FD") # Mexican flag
+				await message.add_reaction(u"\U0001F1EF\U0001F1F5") # Japanese flag
 			else:
 				pass
 		if message.content.startswith("$order"):
