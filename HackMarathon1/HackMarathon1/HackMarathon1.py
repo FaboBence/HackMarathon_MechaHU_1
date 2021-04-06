@@ -16,7 +16,7 @@ for i in database[filter_hamburger]['Name']:
 
 # Bot communication
 order_text = "Who would like to order a meal? (Press like, and the Bot will contact you.)"
-choose_food_type = "Choose which kind of food you want to eat! \n :pizza:: Pizza\n :hamburger:: Hamburger\n :sandwich:: Sandwich\n :salad:: Salad\n :chicken:: Chicken\n :cow2:: Beef\n :pig2:: Pork\n :flag_us:: American food\n :flag_cn:: Chinese food\n :flag_mx:: Mexican food\n :flag_jp:: Japanese food\n(You can choose multiple categories!)"
+choose_food_type = "Choose which kind of food you want to eat! \n :pizza:: Pizza\n :hamburger:: Hamburger\n :sandwich:: Sandwich\n :salad:: Salad\n :chicken:: Chicken\n :cow2:: Beef\n :pig2:: Pork\n :fish:: Fish\n :flag_us:: American food\n :flag_cn:: Chinese food\n :flag_mx:: Mexican food\n :flag_jp:: Japanese food\n(You can choose multiple categories!)"
 choose_price_range = "Which price category is the most suitable for you? \n :coin:: Cheap\n :dollar:: Medium priced\n :moneybag:: Reasonably priced\n :gem:: Expensive\n(You can choose multiple categories!)"
 choose_delivery_time = "By what time do you want to recieve your ordered meal? \n :clock12:: 12:00\n :clock1230:: 12:30\n :clock1:: 13:00\n :clock130:: 13:30\n :clock2:: 14:00\n :clock230:: 14:30\n :clock3:: 15:00 \n(If it doesn't matter, don't choose anything.)"
 
@@ -48,6 +48,7 @@ class MyClient(discord.Client):
 				await message.add_reaction("\N{chicken}")
 				await message.add_reaction("\N{cow}")
 				await message.add_reaction("\N{pig}")
+				await message.add_reaction("🐟")
 				await message.add_reaction(u"\U0001F1FA\U0001F1F8") # American flag
 				await message.add_reaction(u"\U0001F1E8\U0001F1F3") # Chinese flag
 				await message.add_reaction(u"\U0001F1F2\U0001F1FD") # Mexican flag
@@ -83,7 +84,6 @@ class MyClient(discord.Client):
 		elif message.content.startswith("$close") and self.ordering == True: # Here the answers should be evaluated
 			self.ordering = False
 			await message.channel.send("The suitable restaurants will appear shortly...")
-			print(len(self.people))
 		elif message.content.startswith("$close") and self.ordering == False:
 			await message.channel.send("There isn't an ordering process to close! If you want to start one type: $order")
 
