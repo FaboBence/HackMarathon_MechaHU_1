@@ -7,12 +7,12 @@ with open("TOKEN.txt", "r") as f:
 database = pd.read_csv('Database.csv', index_col = 0, sep=';') # Restaurant data
 
 # adatok filterezésének próbálgatása
-print(database)
-filter_hamburger = database['Hamburger'] == 1
-print(database[filter_hamburger])
+#print(database)
+#filter_hamburger = database['Hamburger'] == 1
+#print(database[filter_hamburger])
 #print(database[filter_hamburger].Name.to_string(index=False))
-for i in database[filter_hamburger]['Name']:
-	print(i)
+#for i in database[filter_hamburger]['Name']:
+	#print(i)
 
 # Bot communication
 order_text = "Who would like to order a meal? (Press like, and the Bot will contact you.)"
@@ -20,9 +20,11 @@ choose_food_type = "Choose which kind of food you want to eat! \n :pizza:: Pizza
 choose_price_range = "Which price category is the most suitable for you? \n :coin:: Cheap\n :dollar:: Medium priced\n :moneybag:: Reasonably priced\n :gem:: Expensive\n(You can choose multiple categories!)"
 choose_delivery_time = "By what time do you want to recieve your ordered meal? \n :clock12:: 12:00\n :clock1230:: 12:30\n :clock1:: 13:00\n :clock130:: 13:30\n :clock2:: 14:00\n :clock230:: 14:30\n :clock3:: 15:00 \n(If it doesn't matter, don't choose anything.)"
 
+
 class Participant():
 	def __init__(self, id):
 		self.id = id
+		self.messages = []
 		self.food_reactions = []
 		self.price_reactions = []
 		self.time_reactions = []
@@ -32,7 +34,8 @@ class MyClient(discord.Client):
 		super().__init__()
 		self.ordering = False # Is an ordering process already running
 		self.order_msg = None
-		self.people = []
+		self.participants = [] # List of participants
+
 	# Going online
 	async def on_ready(self):
 		print("I went online.")
@@ -74,9 +77,10 @@ class MyClient(discord.Client):
 		if message.content.startswith("$order") and self.ordering == False:
 			self.ordering = True
 			self.order_msg = await message.channel.send(order_text)
-			channel = await client.fetch_channel(self.order_msg.channel.id)
-			order_message = await channel.fetch_message(self.order_msg.id)
-			await order_message.add_reaction("✋")
+			await self.order_msg.add_reaction("✋")
+			#channel = await client.fetch_channel(self.order_msg.channel.id)
+			#order_message = await channel.fetch_message(self.order_msg.id)
+			#await order_message.add_reaction("✋")
 		elif message.content.startswith("$order") and self.ordering == True:
 			await message.channel.send("An ordering process is already running! If you want to end it and see the results type: $close")
 
@@ -84,6 +88,22 @@ class MyClient(discord.Client):
 		elif message.content.startswith("$close") and self.ordering == True: # Here the answers should be evaluated
 			self.ordering = False
 			await message.channel.send("The suitable restaurants will appear shortly...")
+			for participant in self.participants:
+				for i,tmp in enumerate(participant.messages):
+					msg = await tmp.channel.fetch_message(tmp.id)
+					if i==0:
+						for reaction in msg.reactions:
+							participant.food_reactions.append(reaction.count - 1)
+						print(participant.food_reactions)
+					elif i==1:
+						for reaction in msg.reactions:
+							participant.price_reactions.append(reaction.count - 1)
+						print(participant.price_reactions)
+					elif i==2:
+						for reaction in msg.reactions:
+							participant.time_reactions.append(reaction.count - 1)
+						print(participant.time_reactions)
+					await tmp.delete()
 		elif message.content.startswith("$close") and self.ordering == False:
 			await message.channel.send("There isn't an ordering process to close! If you want to start one type: $order")
 
@@ -95,14 +115,20 @@ class MyClient(discord.Client):
 		if user == client.user:
 			return
 		if message.id == self.order_msg.id: # If people want to order
-			self.people.append(Participant(user.id))
+			p = Participant(user.id)
 			# Food type message
-			await user.send(choose_food_type)
+			tmp = await user.send(choose_food_type)
+			p.messages.append(tmp)
 			# Price preference
-			await user.send(choose_price_range)
+			tmp = await user.send(choose_price_range)
+			p.messages.append(tmp)
 			# Delivery time
-			await user.send(choose_delivery_time)
-		await message.channel.send(str(user) + " chose " + str(payload.emoji))
+			tmp = await user.send(choose_delivery_time)
+			p.messages.append(tmp)
+			# We save each participant in the list
+			self.participants.append(p)
+		#await message.channel.send(str(user) + " chose " + str(payload.emoji))
+		#message1 = await tmp.channel.fetch_message(tmp.id)
 
 	#async def on_reaction_add(self, reaction, user):
 	#	if user == client.user:
