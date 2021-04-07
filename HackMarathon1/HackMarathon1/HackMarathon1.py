@@ -5,6 +5,7 @@ import numpy as np
 # Reading requisite files
 with open("TOKEN.txt", "r") as f:
 	TOKEN = f.read() # Token for bot
+filename = "restaurant_database.csv"
 
 # Bot communication
 order_text = ["✋","Who would like to order a meal? (Press like, and the Bot will contact you.)"]
@@ -124,8 +125,8 @@ class MyClient(discord.Client):
 					food_matrix.append(participant.food_reactions)
 					time_matrix.append(participant.time_reactions)
 		#### Running the ranking algorithm ####
-				lunch_time_idx = voting(time_matrix, values_array)
-				ranked_restaurants = ranking_algorithm(price_matrix,food_matrix)
+				lunch_time_idx = voting(time_matrix, values_array)						   # Auxillary function from Ranking_algorithm.py
+				ranked_restaurants = ranking_algorithm(price_matrix,food_matrix, filename) # Auxillary function from Ranking_algorithm.py
 				ranked_rest_list = "We found these restaurants for you:\n"
 				for i in range(3):
 					ranked_rest_list += str(i+1) + ". " + str(ranked_restaurants[i]) + "\n"
