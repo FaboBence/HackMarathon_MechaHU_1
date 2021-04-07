@@ -11,7 +11,10 @@ def voting(time_matrix, values_array):
         return idx
 
     mult = np.multiply(col_sum, np.asarray(values_array)) # Weighing votes
-    Avg = mult.sum()/col_sum.sum() # Average = weighted votes / sum of all the votes
+    sum = col_sum.sum()
+    if sum == 0:
+        return 0
+    Avg = mult.sum()/sum # Average = weighted votes / sum of all the votes
     # Returning the index of the closest value from values_array
     idx = (np.abs(values_array-Avg)).argmin()
     return idx
@@ -31,7 +34,8 @@ def ranking_algorithm(price_matrix,food_matrix,filename="restaurant_database.csv
         if fm_sum[i]!=0:
             food_matrix_norm.append(row/fm_sum[i])
         else:
-            food_matrix_norm=np.zeros(row.shape())
+            sh = row.shape
+            food_matrix_norm.append(np.zeros(sh[0]))
     food_matrix_norm=np.array(food_matrix_norm)
 
     #manipulating price_matrix:
@@ -43,9 +47,9 @@ def ranking_algorithm(price_matrix,food_matrix,filename="restaurant_database.csv
         tmp_row=[]
         print(row)
         for i,elem in enumerate(row):
-           if row[i]==1:
-               tmp+=2
-           else:
+            if row[i]==1:
+                tmp+=2
+            else:
                 if i==0:
                     if row[i+1]==1:
                         tmp+=1
@@ -57,9 +61,9 @@ def ranking_algorithm(price_matrix,food_matrix,filename="restaurant_database.csv
                         tmp+=1
         for i,elem in enumerate(row):
             if tmp!=0:
-                 if row[i]==1:
+                if row[i]==1:
                     tmp_row.append(2*1/tmp)
-                 else:
+                else:
                     if i==0:
                         if row[i+1]==1:
                             tmp_row.append(1/tmp)
