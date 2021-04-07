@@ -1,25 +1,16 @@
 import discord
-import pandas as pd
+from Ranking_algorithm import ranking_algorithm
 
 # Reading requisite files + Global variables
 with open("TOKEN.txt", "r") as f:
 	TOKEN = f.read() # Token for bot
-database = pd.read_csv('Database.csv', index_col = 0, sep=';') # Restaurant data
-
-# adatok filterezésének próbálgatása
-#print(database)
-#filter_hamburger = database['Hamburger'] == 1
-#print(database[filter_hamburger])
-#print(database[filter_hamburger].Name.to_string(index=False))
-#for i in database[filter_hamburger]['Name']:
-	#print(i)
 
 # Bot communication
+#string = [["🍕",":pizza:","Pizza"],["\N{hamburger}"]]
 order_text = "Who would like to order a meal? (Press like, and the Bot will contact you.)"
 choose_food_type = "Choose which kind of food you want to eat! \n :pizza:: Pizza\n :hamburger:: Hamburger\n :sandwich:: Sandwich\n :salad:: Salad\n :chicken:: Chicken\n :cow2:: Beef\n :pig2:: Pork\n :fish:: Fish\n :flag_us:: American food\n :flag_cn:: Chinese food\n :flag_mx:: Mexican food\n :flag_jp:: Japanese food\n(You can choose multiple categories!)"
 choose_price_range = "Which price category is the most suitable for you? \n :coin:: Cheap\n :dollar:: Medium priced\n :moneybag:: Reasonably priced\n :gem:: Expensive\n(You can choose multiple categories!)"
 choose_delivery_time = "By what time do you want to recieve your ordered meal? \n :clock12:: 12:00\n :clock1230:: 12:30\n :clock1:: 13:00\n :clock130:: 13:30\n :clock2:: 14:00\n :clock230:: 14:30\n :clock3:: 15:00 \n(If it doesn't matter, don't choose anything.)"
-
 
 class Participant():
 	def __init__(self, id):
@@ -104,6 +95,19 @@ class MyClient(discord.Client):
 							participant.time_reactions.append(reaction.count - 1)
 						print(participant.time_reactions)
 					await tmp.delete()
+
+			price_matrix = []
+			food_matrix = []
+			for participant in self.participants:
+				price_matrix.append(participant.price_reactions)
+				food_matrix.append(participant.food_reactions)
+			# Running the ranking algorithm
+			ranked_restaurants = ranking_algorithm(price_matrix,food_matrix)
+			ranked_rest_list = "We found these restaurants for you:\n"
+			for i in range(3):
+				ranked_rest_list += str(i+1) + ". " + str(ranked_restaurants[i]) + "\n"
+			await self.order_msg.channel.send(ranked_rest_list)
+
 		elif message.content.startswith("$close") and self.ordering == False:
 			await message.channel.send("There isn't an ordering process to close! If you want to start one type: $order")
 
