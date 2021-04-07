@@ -1,17 +1,23 @@
 import pandas as pd
 import numpy as np
 
+def voting(time_matrix, values_array):
+    time_matrix = np.array(time_matrix)
+    col_sum = time_matrix.sum(axis=0) # Sum of votes for every option
+    mult = np.multiply(col_sum, np.asarray(values_array)) # Weighing votes
+    Avg = mult.sum()/col_sum.sum() # Average = weighted votes / sum of all the votes
+    # Returning the closest value from values_array
+    idx = (np.abs(values_array-Avg)).argmin()
+    lunch_time = values_array[idx]
+    return values_array[idx]
+
 def ranking_algorithm(price_matrix,food_matrix,filename="database.csv"):
-    # Reading requisite files + Global variables
+    # Reading requisite files
     database = pd.read_csv(filename, index_col = 0, sep=';') # Restaurant data
     to_matrix=database.drop(["Name"],1)
     restaurant_matrix=to_matrix.to_numpy()
     price_matrix=np.array(price_matrix)
     food_matrix=np.array(food_matrix)
-
-    #csak a futtatáshoz kellennek:
-    #price_matrix=np.array([[0,1,0,0],[0,1,0,0],[1,0,0,0],[0,0,1,0]])
-    #food_matrix=np.array([[0,0,0,0,0,0,1,0,0,0,0,0],[1,0,1,0,0,0,1,0,0,0,0,0],[1,1,1,1,1,1,0,0,0,0,0,0],[0,0,0,1,0,0,1,0,1,0,0,0]])
 
     #manipulating food_matrix
     fm_sum=food_matrix.sum(axis=1)
@@ -74,5 +80,5 @@ def ranking_algorithm(price_matrix,food_matrix,filename="database.csv"):
     database=database.sort_values(by=["Ranking"], ascending=False)
     print(database)
     ranked_restaurant=database["Name"].to_list()
-    #print("\nRestaurant recommendation:")
-    return ranked_restaurant
+
+    return ranked_restaurant # Its a list of restaurant names from best to worst

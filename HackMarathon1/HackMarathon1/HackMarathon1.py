@@ -1,7 +1,7 @@
 import discord
-from Ranking_algorithm import ranking_algorithm
+from Ranking_algorithm import *
 
-# Reading requisite files + Global variables
+# Reading requisite files
 with open("TOKEN.txt", "r") as f:
 	TOKEN = f.read() # Token for bot
 
@@ -68,17 +68,15 @@ class MyClient(discord.Client):
 		if message.content.startswith("$order") and self.ordering == False:
 			self.ordering = True
 			self.order_msg = await message.channel.send(order_text)
-			await self.order_msg.add_reaction("✋")
-			#channel = await client.fetch_channel(self.order_msg.channel.id)
-			#order_message = await channel.fetch_message(self.order_msg.id)
-			#await order_message.add_reaction("✋")
+			await self.order_msg.add_reaction("✋") # Only those get messages who react to this
 		elif message.content.startswith("$order") and self.ordering == True:
 			await message.channel.send("An ordering process is already running! If you want to end it and see the results type: $close")
 
 		# Command: $close
-		elif message.content.startswith("$close") and self.ordering == True: # Here the answers should be evaluated
+		elif message.content.startswith("$close") and self.ordering == True:
 			self.ordering = False
 			await message.channel.send("The suitable restaurants will appear shortly...")
+			# We go through every message of the participants and list out their reactions
 			for participant in self.participants:
 				for i,tmp in enumerate(participant.messages):
 					msg = await tmp.channel.fetch_message(tmp.id)
@@ -95,17 +93,21 @@ class MyClient(discord.Client):
 							participant.time_reactions.append(reaction.count - 1)
 						print(participant.time_reactions)
 					await tmp.delete()
-
+			# List of reactions appended together in the form of a matrix
 			price_matrix = []
 			food_matrix = []
+			time_matrix = []
 			for participant in self.participants:
 				price_matrix.append(participant.price_reactions)
 				food_matrix.append(participant.food_reactions)
-			# Running the ranking algorithm
+				time_matrix.append(participant.time_reactions)
+#### Running the ranking algorithm ####
+			lunch_time = voting(time_matrix, [12, 12.5, 13, 13.5, 14, 14.5, 15])
 			ranked_restaurants = ranking_algorithm(price_matrix,food_matrix)
 			ranked_rest_list = "We found these restaurants for you:\n"
 			for i in range(3):
 				ranked_rest_list += str(i+1) + ". " + str(ranked_restaurants[i]) + "\n"
+			ranked_rest_list += "Based on the votes, the best time for lunch is " + str(int(lunch_time)) + ":" + str(int((lunch_time%1)*60))
 			await self.order_msg.channel.send(ranked_rest_list)
 
 		elif message.content.startswith("$close") and self.ordering == False:
@@ -131,15 +133,6 @@ class MyClient(discord.Client):
 			p.messages.append(tmp)
 			# We save each participant in the list
 			self.participants.append(p)
-		#await message.channel.send(str(user) + " chose " + str(payload.emoji))
-		#message1 = await tmp.channel.fetch_message(tmp.id)
-
-	#async def on_reaction_add(self, reaction, user):
-	#	if user == client.user:
-	#		return
-	#	print("on_reaction_add")
-	#	await reaction.message.channel.send(str(user) + " chose " + str(reaction.emoji))
-	#	await user.send(str(user) + " chose " + str(reaction.emoji))
 
 client = MyClient()
 client.run(TOKEN)
