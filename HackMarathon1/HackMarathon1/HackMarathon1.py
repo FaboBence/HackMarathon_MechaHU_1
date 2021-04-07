@@ -8,6 +8,7 @@ with open("TOKEN.txt", "r") as f:
 
 # Bot communication
 order_text = ["✋","Who would like to order a meal? (Press like, and the Bot will contact you.)"]
+ready_message = ["✅","Let others know you are done!"]
 choose_food_type = "Choose which kind of food you want to eat! (You can choose multiple categories!)"
 food_li = [["🍕",":pizza:","Pizza"],
 		  ["\N{hamburger}",":hamburger:","Hamburger"],
@@ -162,8 +163,14 @@ class MyClient(discord.Client):
 			# Delivery time
 			tmp = await user.send(choose_delivery_time)
 			p.messages.append(tmp)
+			# Ready
+			tmp = await user.send(ready_message[1])
+			p.messages.append(tmp)
+			await tmp.add_reaction(ready_message[0])
 			# We save each participant in the list
 			self.participants.append(p)
+		elif message.content == ready_message[1]:
+			self.deleteable_messages.append(await self.order_msg.channel.send(str(user.display_name)+" has voted!"))
 
 client = MyClient()
 client.run(TOKEN)
