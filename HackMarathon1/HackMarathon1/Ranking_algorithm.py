@@ -30,6 +30,8 @@ def ranking_algorithm(price_matrix,food_matrix,filename="restaurant_database.csv
     for i,row in enumerate(food_matrix):
         if fm_sum[i]!=0:
             food_matrix_norm.append(row/fm_sum[i])
+        else:
+            food_matrix_norm=np.zeros(row.shape())
     food_matrix_norm=np.array(food_matrix_norm)
 
     #manipulating price_matrix:
