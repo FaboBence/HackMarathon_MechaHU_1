@@ -143,6 +143,21 @@ class MyClient(discord.Client):
 
 		elif message.content.startswith("$close") and self.ordering == False:
 			await message.channel.send("There isn't an ordering process to close! If you want to start one type: $order")
+		
+		# Command: $delete  -> In a server channel it deletes all commands, in a private channel it deletes the messages sent by the bot.
+		elif message.content.startswith("$delete"):
+			history = await message.channel.history(limit=20).flatten()
+			if str(message.channel.type) == "private":
+				for i in history:
+					if i.author == client.user:
+						await i.delete()
+			else:
+				for i in history:
+					if i.content.startswith("$"):
+						await i.delete()
+		# Command: $help
+		elif message.content.startswith("$help"):
+			await message.channel.send("Try the following commands:\n"+"$order -> Starts an ordering process\n"+"$close -> Closes a running ordering process\n"+"$delete -> Deletes all previous commands from the channel, or all messages sent from the bot in a private channel.")
 
 	async def on_raw_reaction_add(self, payload):
 		user = await client.fetch_user(payload.user_id)
