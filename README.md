@@ -28,7 +28,9 @@ The bot recognizes the message and asks you on the channel who wants to order to
 - By what time do you want to recieve your ordered meal? 🕛 🕧 🕜 🕜 🕑 🕝 🕒
 
 You can answer the queastions simply by reacting with the given emojis to the questions!
+
 If everyone finished ordering, someone should type $close into the channel. 
+
 The bot is going to list the most suitable restaurants and meal times onto the channel, so you can simply grab your phones and order your meal!
 The bot uses an own database to select the restaurants. You'll have to add your favorite restaurants to the database before the first order!
 You can add several other emojis to customize the voting, or you can add even further questions if you want!
@@ -42,10 +44,11 @@ You can add several other emojis to customize the voting, or you can add even fu
 
 ## Challenges and accomplishments
 
-During working on the project, we learnt many important skills which we'll be able to use in our future projects as well.
-We figured out how we can program Discord bots with Python or any other programming language, which is very useful, especially as Discord is rapidly growing in popularity
-We implemented an interesting ranking algorithm which can be used for solving other problems as well.
-We found optimal ways to work together as a team, to break down the project into smaller subtasks and to distribute these among the members of the team.
+During working on the project, we learnt many important skills which we'll be able to use in our future projects as well:
+
+- We figured out how we can program Discord bots with Python or any other programming language, which is very useful, especially as Discord is rapidly growing in popularity
+- We implemented an interesting ranking algorithm which can be used for solving other problems as well.
+- We found optimal ways to work together as a team, to break down the project into smaller subtasks and to distribute these among the members of the team.
 
 ## Next steps
 
