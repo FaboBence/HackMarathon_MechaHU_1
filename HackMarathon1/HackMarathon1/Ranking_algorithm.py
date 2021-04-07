@@ -10,7 +10,7 @@ def voting(time_matrix, values_array):
     idx = (np.abs(values_array-Avg)).argmin()
     return idx
 
-def ranking_algorithm(price_matrix,food_matrix,filename="database.csv"):
+def ranking_algorithm(price_matrix,food_matrix,filename="restaurant_database.csv"):
     # Reading requisite files
     database = pd.read_csv(filename, index_col = 0, sep=';') # Restaurant data
     to_matrix=database.drop(["Name"],1)

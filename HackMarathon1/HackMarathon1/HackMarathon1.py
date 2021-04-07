@@ -61,6 +61,7 @@ class MyClient(discord.Client):
 		self.ordering = False # Is an ordering process already running
 		self.order_msg = None
 		self.participants = [] # List of participants
+		self.deleteable_messages = []
 
 	# Going online
 	async def on_ready(self):
@@ -93,7 +94,7 @@ class MyClient(discord.Client):
 		# Command: $close
 		elif message.content.startswith("$close") and self.ordering == True:
 			self.ordering = False
-			await message.channel.send("The suitable restaurants will appear shortly...")
+			self.deleteable_messages.append(await message.channel.send("The suitable restaurants will appear shortly..."))
 			# We go through every message of the participants and list out their reactions
 			for participant in self.participants:
 				for i,tmp in enumerate(participant.messages):
@@ -127,6 +128,10 @@ class MyClient(discord.Client):
 				ranked_rest_list += str(i+1) + ". " + str(ranked_restaurants[i]) + "\n"
 			ranked_rest_list += "Based on the votes, the best time for lunch is " + time_li[lunch_time_idx][2]
 			await self.order_msg.channel.send(ranked_rest_list)
+			self.deleteable_messages.append(self.order_msg)
+			for i in self.deleteable_messages:
+				await i.delete()
+				self.deleteable_messages.pop(self.deletable_messages.index(i)) # MyClient has no attribute deleteable_messages
 
 		elif message.content.startswith("$close") and self.ordering == False:
 			await message.channel.send("There isn't an ordering process to close! If you want to start one type: $order")
