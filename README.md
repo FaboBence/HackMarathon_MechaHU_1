@@ -1,4 +1,4 @@
-# Hack Kosice Marathon: Your project name
+# Hack Kosice Marathon 1b: Discord Bot order assistant
 
 
 ## Team
