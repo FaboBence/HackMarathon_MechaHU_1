@@ -18,8 +18,10 @@
 In our project, we came up with an **innovative, convenient and easily customizable** solution to make the process of ordering food faster!
 
 To help you, we created a **Discord bot** which collects everyone's preferences via direct messages, and with a special ranking algorithm it finds the optimal compromise and lists you the restaurants which suit the group the most. 
+
 You can tell your food, price and meal time preferences simply by **reacting with emojis** onto the bot's questions. This way, ordering food together won't take longer than a minute!
-Our solution makes the process very fast and convenient, and with some modifications you can customize and boost the bot to meet your expectations perfectly!
+
+*Our solution makes the process very fast and convenient, and with some modifications you can customize and boost the bot to meet your expectations perfectly!*
 ## Protoype
 
 When it comes to ordering food, someone from the group should type **$order** to a channel in your Discord server.
