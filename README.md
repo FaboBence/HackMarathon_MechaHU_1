@@ -13,7 +13,7 @@
 
 ## Description
 
-*A clear statement of the challenges, issues, problems or gaps that your project solves and a brief description of how your project tackles the areas. What is the value of your solution? Who are the target users?*
+hi
 
 ## Protoype
 
