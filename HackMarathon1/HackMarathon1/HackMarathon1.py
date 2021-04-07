@@ -85,6 +85,7 @@ class MyClient(discord.Client):
 
 		# Command: $order
 		if message.content.startswith("$order") and self.ordering == False:
+			self.participants.clear()
 			self.ordering = True
 			self.order_msg = await message.channel.send(order_text[1])
 			await self.order_msg.add_reaction(order_text[0]) # Only those get messages who react to this
@@ -94,44 +95,51 @@ class MyClient(discord.Client):
 		# Command: $close
 		elif message.content.startswith("$close") and self.ordering == True:
 			self.ordering = False
-			self.deleteable_messages.append(await message.channel.send("The suitable restaurants will appear shortly..."))
-			# We go through every message of the participants and list out their reactions
-			for participant in self.participants:
-				for i,tmp in enumerate(participant.messages):
-					msg = await tmp.channel.fetch_message(tmp.id)
-					if i==0:
-						for reaction in msg.reactions:
-							participant.food_reactions.append(reaction.count - 1)
-						print(participant.food_reactions)
-					elif i==1:
-						for reaction in msg.reactions:
-							participant.price_reactions.append(reaction.count - 1)
-						print(participant.price_reactions)
-					elif i==2:
-						for reaction in msg.reactions:
-							participant.time_reactions.append(reaction.count - 1)
-						print(participant.time_reactions)
-					await tmp.delete()
-			# List of reactions appended together in the form of a matrix
-			price_matrix = []
-			food_matrix = []
-			time_matrix = []
-			for participant in self.participants:
-				price_matrix.append(participant.price_reactions)
-				food_matrix.append(participant.food_reactions)
-				time_matrix.append(participant.time_reactions)
+			if self.participants: # It runs only when at least someone participated
+				self.deleteable_messages.append(await message.channel.send("The suitable restaurants will appear shortly..."))
+				# We go through every message of the participants and list out their reactions
+				for participant in self.participants:
+					for i,tmp in enumerate(participant.messages):
+						msg = await tmp.channel.fetch_message(tmp.id)
+						if i==0:
+							for reaction in msg.reactions:
+								participant.food_reactions.append(reaction.count - 1)
+							print(participant.food_reactions)
+						elif i==1:
+							for reaction in msg.reactions:
+								participant.price_reactions.append(reaction.count - 1)
+							print(participant.price_reactions)
+						elif i==2:
+							for reaction in msg.reactions:
+								participant.time_reactions.append(reaction.count - 1)
+							print(participant.time_reactions)
+						await tmp.delete()
+				# List of reactions appended together in the form of a matrix
+				price_matrix = []
+				food_matrix = []
+				time_matrix = []
+				for participant in self.participants:
+					price_matrix.append(participant.price_reactions)
+					food_matrix.append(participant.food_reactions)
+					time_matrix.append(participant.time_reactions)
 #### Running the ranking algorithm ####
-			lunch_time_idx = voting(time_matrix, values_array)
-			ranked_restaurants = ranking_algorithm(price_matrix,food_matrix)
-			ranked_rest_list = "We found these restaurants for you:\n"
-			for i in range(3):
-				ranked_rest_list += str(i+1) + ". " + str(ranked_restaurants[i]) + "\n"
-			ranked_rest_list += "Based on the votes, the best time for lunch is " + time_li[lunch_time_idx][2]
-			await self.order_msg.channel.send(ranked_rest_list)
+			
+				lunch_time_idx = voting(time_matrix, values_array)
+				ranked_restaurants = ranking_algorithm(price_matrix,food_matrix)
+				ranked_rest_list = "We found these restaurants for you:\n"
+				for i in range(3):
+					ranked_rest_list += str(i+1) + ". " + str(ranked_restaurants[i]) + "\n"
+				ranked_rest_list += "Based on the votes, the best time for lunch is " + time_li[lunch_time_idx][2]
+				await self.order_msg.channel.send(ranked_rest_list)
+			else:
+				await self.order_msg.channel.send("Nobody participated!")
+
+			# Deleting dispensable data
 			self.deleteable_messages.append(self.order_msg)
 			for i in self.deleteable_messages:
 				await i.delete()
-				self.deleteable_messages.pop(self.deletable_messages.index(i)) # MyClient has no attribute deleteable_messages
+				self.deleteable_messages.pop(-1)
+			self.participants.clear()
 
 		elif message.content.startswith("$close") and self.ordering == False:
 			await message.channel.send("There isn't an ordering process to close! If you want to start one type: $order")
