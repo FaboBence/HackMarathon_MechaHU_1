@@ -34,6 +34,7 @@ The bot recognizes the message and asks you on the channel who wants to order to
 You can answer the queastions simply by **reacting with the given emojis** to the questions!
 
 If everyone finished ordering, someone should type **$close** into the channel. 
+The bot automatically deletes earlier messages to prevent spamming.
 
 The bot is going to list the most suitable restaurants and meal times onto the channel, so you can simply grab your phones and order your meal!
 The bot uses an own database to select the restaurants. You'll have to add your favorite restaurants to the database before the first order!
