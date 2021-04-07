@@ -25,7 +25,7 @@ You can tell your food, price and meal time preferences simply by **reacting wit
 ## Protoype
 
 When it comes to ordering food, someone from the group should type **$order** to a channel in your Discord server.
-The bot recognizes the message and asks you on the channel who wants to order today. If you react with a 👍 on the message, the bot sends you a direct message where it asks you 3 questions:
+The bot recognizes the message and asks you on the channel who wants to order today. If you react with a ✋ on the message, the bot sends you a direct message where it asks you 3 questions:
 
 - Choose which kind of food you want to eat! 🍕 🍔 🥪 🥗 🐔 🐄 🐖 🐟 🇺🇸 🇲🇽 🇨🇳 🇯🇵
 - What price category is the most suitable for you?  🟡 💵 💎 💰
