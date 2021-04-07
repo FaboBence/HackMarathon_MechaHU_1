@@ -4,6 +4,12 @@ import numpy as np
 def voting(time_matrix, values_array):
     time_matrix = np.array(time_matrix)
     col_sum = time_matrix.sum(axis=0) # Sum of votes for every option
+    
+    idx = col_sum.argmax()
+    matrix_size = time_matrix.shape
+    if col_sum[idx] > matrix_size[0]/2: # If at least half of the voters chose a certain time
+        return idx
+
     mult = np.multiply(col_sum, np.asarray(values_array)) # Weighing votes
     Avg = mult.sum()/col_sum.sum() # Average = weighted votes / sum of all the votes
     # Returning the index of the closest value from values_array
