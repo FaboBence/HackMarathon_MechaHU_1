@@ -6,10 +6,9 @@ def voting(time_matrix, values_array):
     col_sum = time_matrix.sum(axis=0) # Sum of votes for every option
     mult = np.multiply(col_sum, np.asarray(values_array)) # Weighing votes
     Avg = mult.sum()/col_sum.sum() # Average = weighted votes / sum of all the votes
-    # Returning the closest value from values_array
+    # Returning the index of the closest value from values_array
     idx = (np.abs(values_array-Avg)).argmin()
-    lunch_time = values_array[idx]
-    return values_array[idx]
+    return idx
 
 def ranking_algorithm(price_matrix,food_matrix,filename="database.csv"):
     # Reading requisite files
