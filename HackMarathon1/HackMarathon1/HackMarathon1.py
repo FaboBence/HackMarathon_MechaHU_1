@@ -123,8 +123,7 @@ class MyClient(discord.Client):
 					price_matrix.append(participant.price_reactions)
 					food_matrix.append(participant.food_reactions)
 					time_matrix.append(participant.time_reactions)
-#### Running the ranking algorithm ####
-			
+		#### Running the ranking algorithm ####
 				lunch_time_idx = voting(time_matrix, values_array)
 				ranked_restaurants = ranking_algorithm(price_matrix,food_matrix)
 				ranked_rest_list = "We found these restaurants for you:\n"
@@ -139,7 +138,7 @@ class MyClient(discord.Client):
 			self.deleteable_messages.append(self.order_msg)
 			for i in self.deleteable_messages:
 				await i.delete()
-				self.deleteable_messages.pop(-1)
+			self.deleteable_messages.clear()
 			self.participants.clear()
 
 		elif message.content.startswith("$close") and self.ordering == False:
