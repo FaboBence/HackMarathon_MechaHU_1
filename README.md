@@ -28,7 +28,7 @@ When it comes to ordering food, someone from the group should type **$order** to
 The bot recognizes the message and asks you on the channel who wants to order today. If you react with a ✋ on the message, the bot sends you a direct message where it asks you 3 questions:
 
 - Choose which kind of food you want to eat! 🍕 🍔 🥪 🥗 🐔 🐄 🐖 🐟 🇺🇸 🇲🇽 🇨🇳 🇯🇵
-- What price category is the most suitable for you?  🟡 💵 💎 💰
+- What price category is the most suitable for you?  🟡 💵 💰 💎
 - By what time do you want to have lunch together? 🕛 🕧 🕜 🕜 🕑 🕝 🕒
 
 You can answer the queastions simply by **reacting with the given emojis** to the questions!
@@ -38,7 +38,7 @@ The bot will start to gather all the reactions and evaluate them with the method
 
 The core of the project is the **Latent Factor Collaborative Filtering algorithm**, which uses **matrix multipilication** to rank the restaurants in the database. We have two matrices (one for the restaurants and one for the participants) with the same columns of attributes like cheap, expensive, american food, fish, pork, etc., where each restaurant and participant has a value of 1 or 0 assigned to these fields, depending on whether the feature is true or false. Then we **normalize** the participant matrix with the number of votes given to **prevent various problematic phenomena**, like reacting with no or with all emojis to a message, which could distort the voting results. Finally, the participant and restaurant matrices are multiplied, then the achieved points of each restaurant are summed up to create the final ranking. The algorithm can be fine tuned by adding some **coefficients or factors**.
 
-After finishing with the evaluation, the bot is going to list the most suitable restaurants and also reveal the best time to have lunch together, based on the average of incoming votes. "All you have to do now is simply grab your phones and order your meal!"
+After finishing with the evaluation, the bot is going to list the most suitable restaurants and also reveal the **best time to have lunch together**, based on the average of incoming votes. "All you have to do now is simply grab your phones and order your meal!"
 This prototype uses a database created by us to select the restaurants, if you want to get relevant results you'll have to manually add your nearby restaurants to the database!
 All emojis and questions can be customized in the *"HackMarathon1.py"* file.
 ## How to try
