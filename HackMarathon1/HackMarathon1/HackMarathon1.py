@@ -26,7 +26,7 @@ price_li = [[u"\U0001FA99",":coin:","Cheap"],
 		["💵",":dollar:","Medium priced"],
 		["\N{money bag}",":moneybag:","Reasonably priced"],
 		["\N{gem stone}",":gem:","Expensive"]]
-choose_delivery_time = "By what time do you want to recieve your ordered meal? (If it doesn't matter, don't choose anything.)"
+choose_delivery_time = "By what time do you want to have lunch together? (If it doesn't matter, don't choose anything.)"
 time_li = [["🕛",":clock12:","12:00",12],
 		["🕧",":clock1230:","12:30",12.5],
 		["🕐",":clock1:","13:00",13],

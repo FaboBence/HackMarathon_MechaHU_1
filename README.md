@@ -17,30 +17,30 @@
 
 In our project, we came up with an **innovative, convenient and easily customizable** solution to make the process of ordering food faster!
 
-To help you, we created a **Discord bot** which collects everyone's preferences via direct messages, and with a special ranking algorithm it finds the optimal compromise and lists you the restaurants which suit the group the most. 
+To help you, we've created a **Discord bot** which collects everyone's preferences via direct messages, and with a special ranking algorithm it finds the optimal compromise and lists you the restaurants which meet your expectations the most.
 
-You can tell your food, price and meal time preferences simply by **reacting with emojis** onto the bot's questions. This way, ordering food together won't take longer than a minute!
+You can name your food, price and meal time preferences simply by **reacting with emojis** onto the bot's questions. This way, settling on a restaurant to order from together won't take longer than a minute!
 
 *Our solution makes the process very fast and convenient, and with some modifications you can customize and boost the bot to meet your expectations perfectly!*
-## Protoype
+## Prototype
 
 When it comes to ordering food, someone from the group should type **$order** to a channel in your Discord server.
 The bot recognizes the message and asks you on the channel who wants to order today. If you react with a ✋ on the message, the bot sends you a direct message where it asks you 3 questions:
 
 - Choose which kind of food you want to eat! 🍕 🍔 🥪 🥗 🐔 🐄 🐖 🐟 🇺🇸 🇲🇽 🇨🇳 🇯🇵
 - What price category is the most suitable for you?  🟡 💵 💎 💰
-- By what time do you want to recieve your ordered meal? 🕛 🕧 🕜 🕜 🕑 🕝 🕒
+- By what time do you want to have lunch together? 🕛 🕧 🕜 🕜 🕑 🕝 🕒
 
 You can answer the queastions simply by **reacting with the given emojis** to the questions!
 
-If everyone finished ordering, someone should type **$close** into the channel. 
-The bot automatically deletes earlier messages to prevent spamming.
+If everyone finished ordering, someone has to type **$close** into the channel. 
+The bot will start to gather all the reactions and evaluate them with the method described below.
 
-The core of the project is the **Latent Factor Collaborative Filtering algorithm**, which uses **matrix multipilication** to rank the restaurants in the database. We have two matrices (one for the restaurants and one for the participants) with the same columns like cheap, expensive, american, fish, pork, etc., where each restaurant or participant has a 0 or 1 value in the fields, depending whether the feature is true or false for the restaurant or participant. Then we **normalize** the participant matrix with the number of votes given, to make the algorithm work smoother. This way, we **prevent various problematic phenomena**, like reacting with no or with all emojis to a message, which could distort the voting results. Finally, the participant and restaurant matrix are multiplied, and the rankings of the restaurants by the participants are summed up to create the final ranking. The algorithm can be boosted easily by adding some **coefficients or factors**, to shift balance between the options.
+The core of the project is the **Latent Factor Collaborative Filtering algorithm**, which uses **matrix multipilication** to rank the restaurants in the database. We have two matrices (one for the restaurants and one for the participants) with the same columns of attributes like cheap, expensive, american food, fish, pork, etc., where each restaurant and participant has a value of 1 or 0 assigned to these fields, depending on whether the feature is true or false. Then we **normalize** the participant matrix with the number of votes given to **prevent various problematic phenomena**, like reacting with no or with all emojis to a message, which could distort the voting results. Finally, the participant and restaurant matrices are multiplied, then the achieved points of each restaurant are summed up to create the final ranking. The algorithm can be fine tuned by adding some **coefficients or factors**.
 
-The bot is going to list the most suitable restaurants and meal times onto the channel, so you can simply grab your phones and order your meal!
-The bot uses an own database to select the restaurants. You'll have to add your favorite restaurants to the database before the first order!
-You can add several other emojis to customize the voting, or you can add even further questions if you want!
+After finishing with the evaluation, the bot is going to list the most suitable restaurants and also reveal the best time to have lunch together, based on the average of incoming votes. "All you have to do now is simply grab your phones and order your meal!"
+This prototype uses a database created by us to select the restaurants, if you want to get relevant results you'll have to manually add your nearby restaurants to the database!
+All emojis and questions can be customized in the *"HackMarathon1.py"* file.
 ## How to try
 
 *List any URLs relevant to demonstrating your prototype, e.g. a live url where judges can preview your app. Note that judges won't be able to setup anything in their computers.*
