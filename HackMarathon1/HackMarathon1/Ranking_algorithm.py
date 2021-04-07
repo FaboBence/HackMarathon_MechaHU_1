@@ -28,7 +28,8 @@ def ranking_algorithm(price_matrix,food_matrix,filename="restaurant_database.csv
     fm_sum=food_matrix.sum(axis=1)
     food_matrix_norm=[]
     for i,row in enumerate(food_matrix):
-        food_matrix_norm.append(row/fm_sum[i])
+        if fm_sum[i]!=0:
+            food_matrix_norm.append(row/fm_sum[i])
     food_matrix_norm=np.array(food_matrix_norm)
 
     #manipulating price_matrix:
@@ -53,25 +54,28 @@ def ranking_algorithm(price_matrix,food_matrix,filename="restaurant_database.csv
                     if (row[i-1]==1 or row[i+1]==1):
                         tmp+=1
         for i,elem in enumerate(row):
-             if row[i]==1:
-                tmp_row.append(2*1/tmp)
-             else:
-                if i==0:
-                    if row[i+1]==1:
-                        tmp_row.append(1/tmp)
-                    else:
-                        tmp_row.append(0)
+            if tmp!=0:
+                 if row[i]==1:
+                    tmp_row.append(2*1/tmp)
+                 else:
+                    if i==0:
+                        if row[i+1]==1:
+                            tmp_row.append(1/tmp)
+                        else:
+                            tmp_row.append(0)
                 
-                elif i==len(row)-1:
-                    if row[i-1]==1:
-                        tmp_row.append(1/tmp)
+                    elif i==len(row)-1:
+                        if row[i-1]==1:
+                            tmp_row.append(1/tmp)
+                        else:
+                            tmp_row.append(0)
                     else:
-                        tmp_row.append(0)
-                else:
-                    if (row[i-1]==1 or row[i+1]==1):
-                        tmp_row.append(1/tmp)
-                    else:
-                        tmp_row.append(0)
+                        if (row[i-1]==1 or row[i+1]==1):
+                            tmp_row.append(1/tmp)
+                        else:
+                            tmp_row.append(0)
+            else:
+                tmp_row=[0,0,0,0]
         price_matrix_norm.append(tmp_row)
     price_matrix_norm=np.array(price_matrix_norm)
 
