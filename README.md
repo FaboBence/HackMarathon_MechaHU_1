@@ -62,4 +62,5 @@ The features we are planning to add:
 - Collecting **order history** and giving **personalized options** for the users according to their preferences during the last orders.
 - Communication with **Google Places API** to list near restaurants from Google's database.
 - Making **customization** easier, adding bot commands to insert new emojis or add new questions to the votings.
+
 We hope that with these additional steps, our bot's going to become your daily **order-assistant**!
