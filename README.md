@@ -40,7 +40,7 @@ The core of the project is the **Latent Factor Collaborative Filtering algorithm
 
 After finishing with the evaluation, the bot is going to list the most suitable restaurants and also reveal the **best time to have lunch together**, based on the average of incoming votes. "All you have to do now is simply grab your phones and order your meal!"
 This prototype uses a database created by us to select the restaurants, if you want to get relevant results you'll have to manually add your nearby restaurants to the database!
-All emojis and questions can be customized in the *"HackMarathon1.py"* file.
+All emojis and questions can be customized in the *"HackMarathon1.py"* file. Discord even allows you to add your own costume emojis to the server, so you can make much more personalized options or commands.
 ## How to try
 We created a discord server where you can try out our bot. (With our test database.) You can join with the link below:
 
