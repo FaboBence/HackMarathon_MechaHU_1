@@ -105,16 +105,16 @@ class MyClient(discord.Client):
 						msg = await tmp.channel.fetch_message(tmp.id)
 						if i==0:
 							for reaction in msg.reactions:
-								participant.food_reactions.append(reaction.count - 1)
-							print(participant.food_reactions)
+								if [id for id in range(len(food_li)) if str(reaction) in food_li[id]]: # Only if the sent emoji was defined
+									participant.food_reactions.append(reaction.count - 1)
 						elif i==1:
 							for reaction in msg.reactions:
-								participant.price_reactions.append(reaction.count - 1)
-							print(participant.price_reactions)
+								if [id for id in range(len(price_li)) if str(reaction) in price_li[id]]:
+									participant.price_reactions.append(reaction.count - 1)
 						elif i==2:
 							for reaction in msg.reactions:
-								participant.time_reactions.append(reaction.count - 1)
-							print(participant.time_reactions)
+								if [id for id in range(len(time_li)) if str(reaction) in time_li[id]]:
+									participant.time_reactions.append(reaction.count - 1)
 						await tmp.delete()
 				# List of reactions appended together in the form of a matrix
 				price_matrix = []

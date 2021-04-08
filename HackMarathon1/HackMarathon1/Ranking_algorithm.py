@@ -45,7 +45,6 @@ def ranking_algorithm(price_matrix,food_matrix,filename="restaurant_database.csv
     for row in price_matrix:
         tmp=0
         tmp_row=[]
-        print(row)
         for i,elem in enumerate(row):
             if row[i]==1:
                 tmp+=2
@@ -93,7 +92,7 @@ def ranking_algorithm(price_matrix,food_matrix,filename="restaurant_database.csv
     ranking=result.sum(axis=0)
     database.insert(0,"Ranking",ranking)
     database=database.sort_values(by=["Ranking"], ascending=False)
-    print(database)
+    #print(database)
     ranked_restaurant=database["Name"].to_list()
 
     return ranked_restaurant # Its a list of restaurant names from best to worst
