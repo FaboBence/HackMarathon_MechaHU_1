@@ -47,7 +47,7 @@ All emojis and questions can be customized in the *"HackMarathon1.py"* file.
 
 ## Presentation
 
-*List any links to your presentation or additional materials that you want to share with the judges.*
+https://youtu.be/ymZ__xH9sIk
 
 ## Challenges and accomplishments
 
