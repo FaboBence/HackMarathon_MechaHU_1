@@ -42,10 +42,13 @@ After finishing with the evaluation, the bot is going to list the most suitable 
 This prototype uses a database created by us to select the restaurants, if you want to get relevant results you'll have to manually add your nearby restaurants to the database!
 All emojis and questions can be customized in the *"HackMarathon1.py"* file.
 ## How to try
+We created a discord server where you can try out our bot. (With our test database.) You can join with the link below:
 
-*List any URLs relevant to demonstrating your prototype, e.g. a live url where judges can preview your app. Note that judges won't be able to setup anything in their computers.*
+https://discord.gg/XydZ4nb2U3
 
 ## Presentation
+
+Here is a short video about our bot:
 
 https://youtu.be/ymZ__xH9sIk
 
