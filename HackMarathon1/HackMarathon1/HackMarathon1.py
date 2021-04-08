@@ -146,7 +146,7 @@ class MyClient(discord.Client):
 			await message.channel.send("There isn't an ordering process to close! If you want to start one type: $order")
 		
 		# Command: $delete  -> In a server channel it deletes all commands, in a private channel it deletes the messages sent by the bot.
-		elif message.content.startswith("$delete"):
+		elif message.content.startswith("$delete") and self.ordering == False:
 			history = await message.channel.history(limit=20).flatten()
 			if str(message.channel.type) == "private":
 				for i in history:
@@ -156,6 +156,8 @@ class MyClient(discord.Client):
 				for i in history:
 					if i.content.startswith("$"):
 						await i.delete()
+		elif message.content.startswith("$delete") and self.ordering == True:
+			await message.channel.send("$delete is disabled while an ordering process is running to avoid any unwanted behaviour.")
 		# Command: $help
 		elif message.content.startswith("$help"):
 			await message.channel.send("Try the following commands:\n"+"$order -> Starts an ordering process\n"+"$close -> Closes a running ordering process\n"+"$delete -> Deletes all previous commands from the channel, or all messages sent from the bot in a private channel.")
