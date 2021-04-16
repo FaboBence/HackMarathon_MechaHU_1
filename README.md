@@ -43,7 +43,7 @@ This prototype uses a database created by us to select the restaurants, if you w
 All emojis and questions can be customized in the *"HackMarathon1.py"* file. Discord even allows you to add your own custom emojis to the server, so you can make much more personalized options or commands.
 ## How to try
 
-Download the python files and run them on your pc.
+The online demo version of our bot is not available. If you want to try it, then create a discord bot at https://discord.com/developers/applications/ , download the python files and run them on your pc.
 
 ## Presentation
 
